@@ -1,0 +1,115 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Food calories
+  description: This API gives information about food calories
+  contact: {}
+host: 'localhost:8080'
+tags:
+  - name: food-management-api-impl
+    description: Food Management Api Impl
+paths:
+  /admin/addFood:
+    post:
+      tags:
+        - food-management-api-impl
+      summary: Add a new Food with details
+      description: This is a public API with admin right
+      operationId: addFoodUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: food
+          description: food
+          required: true
+          schema:
+            $ref: '#/definitions/Food'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Response'
+        '201':
+          description: A new food has been added successfully
+          schema:
+            $ref: '#/definitions/Response'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/admin/removeFood/{id}':
+    delete:
+      tags:
+        - food-management-api-impl
+      summary: Remove an existing Food
+      description: This is a public API with admin right
+      operationId: removeFoodUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Response'
+        '204':
+          description: The food has been removed successfully
+          schema:
+            $ref: '#/definitions/Response'
+        '403':
+          description: Forbidden
+        '404':
+          description: The Food does not exist
+  /public/getFoods:
+    get:
+      tags:
+        - food-management-api-impl
+      summary: Return all Foods with details
+      description: This is a public API
+      operationId: getFoodsUsingGET_1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+definitions:
+  Response:
+    title: Response
+    type: object
+    properties:
+      message:
+         type: string
+  Food:
+    title: Food
+    type: object
+    properties:
+      id:
+         type: string
+      name:
+        type: string
+      calories:
+        type: string   
+    
